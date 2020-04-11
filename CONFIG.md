@@ -177,5 +177,6 @@ Para facilitar o nosso servidor, para automatizar vamos no nosso `package.json` 
     "build": "webpack --mode production"	
   },	
 ```	
+
 Fomos até os nossos scripts e removemos os scripts de tests que não estavam sendo utilizados e inserimos um script novo chamado start, que executa o comando para iniciar nosso servidor de desenvolviemnto, agora é só rodar `yarn start` que tudo irá rodar facilmente. 	
 O segundo script, chamado `build` é para criar um build da aplicação para ser enviado para produção ao final do processo de desenvolvimento das nossas futuras features. 
