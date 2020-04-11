@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0F1626;
+  font: 14px sans-serif;
+  color: #1EB65F;
+}
+
+section {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+img {
+  max-width: 20vh;
+  max-height: 20vh;
+}
