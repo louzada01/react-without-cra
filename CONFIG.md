@@ -66,6 +66,8 @@ Antes de iniciar a configuração, precisamos criar um arquivo `index.html` na n
 ``` $ touch public/index.html ```	
 ``` $ touch src/index.js ```	
 Dentro do arquivo HTML criado vamos definir a seguinte estrutura:	
+
+```
   <!DOCTYPE html>	
   <html lang="en">	
     <head>	
@@ -78,9 +80,14 @@ Dentro do arquivo HTML criado vamos definir a seguinte estrutura:
       <script src="bundle.js"></script>	
     </body>	
   </html>	
+```
+
 Vamos criar também um aruqivo para configurar o Babel, porém esse precisa ficar na nossa pasta raiz.	
+
 ``` $ touch babel.config.js ```	
+
 E definir a seguinte estrutura para ele:	
+
 ```	
   module.exports = {	
     presets: [	
@@ -89,11 +96,14 @@ E definir a seguinte estrutura para ele:
     ]	
   }	
 ```	
+
 Os `presets` exportados pelo babel são configurações que terceiros desenvolveram para ajudar no funcionamento, ou seja, as libs que importamos la em cima, a primeira serve par aque o Babel possa entender em qual ambiente estamos rodando a nossa aplicação e com isso converter par aquele ambiente as funcionalidades que ele ainda não entende (Isso vale para o browser que irá rodar a aplicação como Chrome, Firefox, IE ou outros, e também para o Node.Js que roda o JavaScript do lado do servidor). 	
 Já a segunda exportação é responsavel por passar para o babel, as funcionaldiades que o React cria, com isso, permitir incluir HTML, CSS, Imagens e outras coisas dentro do nosso código JavaScript.	
 Agora vamos configurar o webpack, pois ele também tem um arquivo de configuração.	
 ``` $ touch webpack.config.js ```	
+
 E dentro dele, agora vamos colocar a seguinte configuração:	
+
 ```	
   const path = require('path')	
 
@@ -133,25 +143,40 @@ E dentro dele, agora vamos colocar a seguinte configuração:
     }	
   }	
 ```	
+
 Na configuração, inicialmente importamos a lib 'path' que vem do Node.js que é quem executa o webpack no momento que criamos o bundle da aplicacão, ela é usada para definir os caminhos e não gerar erros caso precisemos rodar ela dentro do Windows por exemplo que utiliza a `\` no lugar da `/`, que é comum nos sistemas Unix ( MacOc e Linux ).	
+
 Logo depois inicamos a configuração de fato do webpack, o primeiro atributo `entry` é o nosso arquivo de entrada da aplição, ou seja, qual iremos precisar carregar primeiro, que no caso é nosso `./src/index.js`, porém utilizando o path ele fica nessa sintaxe. 	
 Já o `output` é o arquivo que será gerado após o processo de build do bundle, então passamos o caminho `./public/` com o nome do arquivo em `filename` que é `bundle.js`.	
+
 O `module` é para criar modulos de uso dentro do weback, e com ele criamos uma regra para o build, que é verificar os arquivos que finalizam com o nome `.js` (utilizando uma expressão regular), excluindo os arquivos que estão na pasta `node_modules` e usando o `babel-loader`. 	
+
 A segunda regra é para tratar arquivos CSS, sendo o primeiro loader para injetar o CSS dentro do nosso HTML e o segundo loader é para entender sobre os arquivos CSS dentro do JavaScript quando forem importados.	
+
 Por fim a ultima regra é para tratar importação de imagens por parte do nosso JavaScript, ele utiliza o file-loader para importar imagens `gif; png; jpg/jpeg e svg`.	
+
 Podemos testar se está tudo ok usando o comando: 	
+
 ``` $ yarn webpack --mode development ``` 	
+
 E ao executar ele deve criar um arquivo `bundle.js` na nossa pasta public usando nosso arquivo `index.js` dentro da pasta `src` para leitura.	
 Tudo certo ? Ainda não, ainda precisamos configurar agora o ambiente de desenvolvimento, pois ainda temos o live-reload sem configurar. Vamos instalar nosso servidor de desenvolvimento do webpack, o webpack-dev-server	
+
 ```yarn add webpack-dev-server -D```	
+
 Passamos o `-D` no final pois essa funcionalidade só precisa ser utilizada no ambiente de desenvolvimento. 	
 Ele ja ficou configurado no nosso `webpack.config.js` com o `devServer`	
 Para iniciar o servidor em desenvolvimento, podemos rodar: 	
+
 ``` $ yarn webpack-dev-server --mode development```	
+
 Falta agora a configuração de fato do react para poder iniciar nossos trabalhos com React, para isso iremos criar um outro arquivo que é nosso primeiro componente, e o pai de todos que irão ser criados depois, é ele quem irá chamar toda nossa aplicação a ser carregada.	
+
 ``` $ touch src/App.js ```	
+
 Note que criei o arquivo com uma letra `A` no inicio em maiúsculo, pois, todo componenten no React inicia com a letra maiuscula. 	
 Dentro dele iremos escrever já com a sintaxe do React nosso primeiro componente teste, que é:	
+
 ```	
   import React from 'react';	
   export default function App() {	
@@ -160,17 +185,21 @@ Dentro dele iremos escrever já com a sintaxe do React nosso primeiro componente
     );	
   }	
 ```	
+
 Note que nela importamos o React e depois exportamos uma função `App` que retorna um H1 com um texto dentro, porém em nenhum momento usamos a função React no código. Isso ocorre pois o React precisa estar importado mesmo que não seja usado visivelmente pois temos código JSX(ou HTML) dentro do nosso arquivo `.js` e se não tivermos nosso React importado, o arquivo não irá rodar pois não consiguira entender o código JSX retornado da função. 	
 Agora vamos no nosso arquivo de entrada da aplicação que configuramos no webpack, nosso `index.js` dentro da pasta `src` e colocamos o seguinte código: 	
+
 ``` 	
   import React from 'react'	
   import {render} from 'react-dom'	
   import App from './App'	
   render(<App />, document.getElementById('app'))	
 ```	
+
 Ali mais uma vez importamos o React e agora também o método render, de dentro do react-dom, que é para permitir a renderização do React na nossa DOM do navegador.	
 Também importamos nosso arquivo `App.js` que exporta por default um componente `App` e passamos ele com a declarativa de um componente dentro do método `render()`para ser renderizado dento de um elemento com o id 'app' no nosso HTML. Ele vai procurar la no `./public/index.html` a div que definimos anteriormente, e todo nosso código react gerado de agora para frente, todo mesmo, cada parte, será inserido dentro dessa mesma div. 	
 Para facilitar o nosso servidor, para automatizar vamos no nosso `package.json` e criar um script de incialização. 	
+
 ```	
   "scripts": {	
     "start": "webpack-dev-server --mode development",	
