@@ -4,8 +4,7 @@
   "description": "A boilerplate for ReactJs wtihout create-react-app ",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --mode development"
   },
   "keywords": [
     "[boilerplate",
